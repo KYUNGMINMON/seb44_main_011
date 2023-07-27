@@ -49,7 +49,8 @@ function SideNav() {
   };
 
   const closeDropdownMenu = () => {
-    setIsTagsMenuOpen(false);
+    if (location.pathname === "/home") setIsTagsMenuOpen(false);
+    else setIsTagsMenuOpen(true);
   };
 
   useEffect(() => {
@@ -85,7 +86,10 @@ function SideNav() {
     if (memberId !== null) {
       navigate(`/${data}`);
       setCurrentMenu(e.currentTarget.id);
-    } else alert("로그인이 필요한 페이지입니다.");
+    } else {
+      alert("로그인이 필요한 페이지입니다.");
+      showLoginModal();
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -214,7 +218,9 @@ function SideNav() {
                 <NavMylist
                   id="mylist"
                   isActive={currentMenu === "mylist"}
-                  onClick={(e: React.MouseEvent) => Navigate("mylist", e)}
+                  onClick={(e: React.MouseEvent) => {
+                    Navigate("mylist", e);
+                  }}
                 >
                   <SideDiv className="mylist">
                     <MyListImg
@@ -519,7 +525,7 @@ const DropdownMenu = styled.div`
   border-radius: 4px;
   // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   display: ${(props) =>
-    props.hidden ? "none" : "flex"}; // hidden 속성으로 메뉴 숨기기/보이기
+    !props.hidden ? "none" : "flex"}; // hidden 속성으로 메뉴 숨기기/보이기
   flex-direction: column;
   justify-content: start;
   align-items: start;
